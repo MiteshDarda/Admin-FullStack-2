@@ -81,16 +81,58 @@ export const canChat = (myDesignation, yourDesignation) => {
     myDesignation === Designation.SUPER_ADMIN ||
     myDesignation === Designation.ADMIN
   ) {
-    if (yourDesignation === Designation.MEMBER) return false;
-  } else if (myDesignation === Designation.MEMBER) {
     if (
-      yourDesignation === Designation.SUPER_ADMIN ||
-      yourDesignation === Designation.ADMIN
+      yourDesignation === Designation.MEMBER ||
+      yourDesignation === Designation.VIDEO_EDITOR ||
+      yourDesignation === Designation.LEADER
     )
       return false;
+    else return true;
+  } else if (myDesignation === Designation.MANAGER) {
+    if (
+      yourDesignation === Designation.ADMIN ||
+      yourDesignation === Designation.LEADER ||
+      yourDesignation === Designation.MANAGER ||
+      yourDesignation === Designation.QA
+    )
+      return true;
+    else return false;
+  } else if (myDesignation === Designation.LEADER) {
+    if (
+      yourDesignation === Designation.MANAGER ||
+      yourDesignation === Designation.LEADER ||
+      yourDesignation === Designation.MEMBER ||
+      yourDesignation === Designation.VIDEO_EDITOR ||
+      yourDesignation === Designation.QA
+    )
+      return true;
+    else return false;
+  } else if (
+    myDesignation === Designation.SCRIPT_WRITER ||
+    myDesignation === Designation.SEO ||
+    myDesignation === Designation.THUMBNAIL_DESIGNER ||
+    myDesignation === Designation.VOICE_OVER_ASSIST
+  ) {
+    if (
+      yourDesignation === Designation.ADMIN ||
+      yourDesignation === Designation.SUPER_ADMIN ||
+      yourDesignation === Designation.QA
+    )
+      return true;
+    else return false;
+  } else if (myDesignation === Designation.QA) {
+    return true;
+  } else if (myDesignation === Designation.MEMBER) {
+    if (
+      yourDesignation === Designation.LEADER ||
+      yourDesignation === Designation.SEO ||
+      yourDesignation === Designation.QA
+    )
+      return true;
+    else return false;
   }
 
-  return true;
+  return false;
 };
 
 export const canDelete = (myDesignation, yourDesignation) => {

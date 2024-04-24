@@ -273,20 +273,6 @@ const ViewTask = () => {
                             );
                           })}
                           <TableCell>
-                            {canChat(
-                              user.designation,
-                              row.assignedToUserDesignation,
-                            ) ? (
-                              <IconButton
-                                onClick={() => {
-                                  navigate(`/chat/${row.assignedToEmail}`);
-                                }}
-                              >
-                                <ForumRoundedIcon />
-                              </IconButton>
-                            ) : (
-                              <></>
-                            )}
                             {canApprove(user.designation) ? (
                               <Button
                                 variant="contained"
@@ -313,6 +299,20 @@ const ViewTask = () => {
                               >
                                 {row.completed ? "Approved" : "Approve"}
                               </Button>
+                            ) : (
+                              <></>
+                            )}
+                            {canChat(
+                              user.designation,
+                              row.assignedToUserDesignation,
+                            ) ? (
+                              <IconButton
+                                onClick={() => {
+                                  navigate(`/chat/${row.assignedToEmail}`);
+                                }}
+                              >
+                                <ForumRoundedIcon />
+                              </IconButton>
                             ) : (
                               <></>
                             )}
