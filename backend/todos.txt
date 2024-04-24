@@ -1,0 +1,3 @@
+// 1. token authentication must be fixed
+
+// 2. currently anyone can create anyone which is controled in the fronted, this must be fixed from the backend side

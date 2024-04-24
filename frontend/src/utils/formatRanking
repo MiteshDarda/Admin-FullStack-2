@@ -1,0 +1,14 @@
+export function formatRanking(value) {
+  if (value === null) return "NA";
+  let numericValue = typeof value === "string" ? Number(value) : value;
+
+  let scaledValue = numericValue * 4 + 1;
+
+  if (Number.isInteger(scaledValue)) {
+    return `${scaledValue}/5`;
+  } else {
+    let roundedValue = Math.round(scaledValue * 10) / 10;
+
+    return `${roundedValue}/5`;
+  }
+}

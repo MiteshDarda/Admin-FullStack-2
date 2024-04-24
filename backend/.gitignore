@@ -1,0 +1,9 @@
+# Generated Files/Folders
+node_modules
+dist
+
+
+# ENV'S
+.env
+.env.dev
+.env.local
