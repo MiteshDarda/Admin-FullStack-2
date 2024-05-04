@@ -1,8 +1,5 @@
-import axios from 'axios';
-const setTaskToCompleted = async(token,taskId) => {
-
-
-
+import axios from "axios";
+const setTaskToCompleted = async (token, taskId) => {
   let config = {
     method: "put",
     maxBodyLength: Infinity,
@@ -14,13 +11,13 @@ const setTaskToCompleted = async(token,taskId) => {
     },
   };
 
-   try {
-     const response = await axios.request(config);
-     return response;
-   } catch (e) {
-     console.log(e);
-     return e.response;
-   }
-}
+  try {
+    const response = await axios.request(config);
+    return response;
+  } catch (e) {
+    console.log(e);
+    return e.response;
+  }
+};
 
-export default setTaskToCompleted
+export default setTaskToCompleted;

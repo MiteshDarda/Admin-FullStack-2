@@ -134,9 +134,9 @@ export default function ProfilePage() {
         {formValues.map((value, i) => (
           <div className="mb-5" key={i}>
             <TextField
-            onFocus={()=>{
-              setSubmitted(false);
-            }}
+              onFocus={() => {
+                setSubmitted(false);
+              }}
               fullWidth
               label={value.title}
               type="text"

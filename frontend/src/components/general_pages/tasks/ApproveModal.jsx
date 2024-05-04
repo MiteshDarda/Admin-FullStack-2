@@ -118,7 +118,7 @@ export default function ApproveModal(props) {
           Cancel
         </motion.button>
         <motion.button
-        disabled={loading}
+          disabled={loading}
           initial={{ scale: 0.8 }}
           whileHover={{ scale: 0.85 }}
           whileTap={{ scale: 0.7 }}

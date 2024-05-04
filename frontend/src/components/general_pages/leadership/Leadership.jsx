@@ -1,8 +1,6 @@
 import LeaderShipTable from "./LeaderShipTable";
 
 const Leadership = () => {
-
-
   return (
     <>
       <div className="p-[2rem] bg-gray-100 mx-0">

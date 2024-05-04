@@ -277,7 +277,7 @@ const EditTaskForm = (props) => {
                         <TableRow hover role="checkbox" key={i}>
                           {columns.map((column) => {
                             let value = row[column.id];
-                            if (column.id === "assignedRole"){
+                            if (column.id === "assignedRole") {
                               value = formatDesignation(value);
                             }
                             return (

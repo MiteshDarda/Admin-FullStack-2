@@ -287,7 +287,7 @@ const Invoice = (props) => {
         <Text style={styles.invoice}>Invoice </Text>
         <Text style={styles.addressTitle}>{todayString}</Text>
         <View style={styles.horizontalRule} /> {/* Horizontal rule */}
-        <Address/>
+        <Address />
         <Text style={styles.name}>{data?.[0]?.user?.name ?? " "}</Text>
         {/* Name */}
         <Text style={styles.email}>{data?.[0]?.user?.email ?? " "}</Text>{" "}

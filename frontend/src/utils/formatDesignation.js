@@ -1,7 +1,7 @@
 function formatDesignation(input) {
   if (input === "seo") return "SEO";
   else if (input === "qa") return "QA";
-  if(input ==="other") return "Other";
+  if (input === "other") return "Other";
 
   return input
     .split("_")

@@ -26,7 +26,6 @@ const getReceipts = async (token, email, query, month, year) => {
     console.log(e);
     return e.response;
   }
-
 };
 
 export default getReceipts;

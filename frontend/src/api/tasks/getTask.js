@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const getTask = async (token,taskId) => {
+const getTask = async (token, taskId) => {
   let config = {
     method: "get",
     maxBodyLength: Infinity,

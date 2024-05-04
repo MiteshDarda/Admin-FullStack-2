@@ -29,11 +29,11 @@ const CreateTaskForm = (props) => {
   const [setAlertMessage, setSeverity] = useOutletContext();
   const navigate = useNavigate();
 
-  useEffect(()=>{
+  useEffect(() => {
     setTitle(props.data.title);
     setDescription(props.data.description);
     setEstimatedTime(props.data.estimatedTime);
-  },[props])
+  }, [props]);
 
   const handleCreateTask = async (e) => {
     e.preventDefault();

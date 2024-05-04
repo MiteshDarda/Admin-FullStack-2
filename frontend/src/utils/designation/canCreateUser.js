@@ -67,5 +67,5 @@ export const canCreateUser = (myDesignation) => {
         label: "Member",
       },
     ];
-    else return [];
+  else return [];
 };

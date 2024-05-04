@@ -103,7 +103,7 @@ export default function MiniDrawer() {
     if (
       decode.designation === Designation.SUPER_ADMIN ||
       decode.designation === Designation.ADMIN ||
-      decode.designation === Designation.LEADER  ||
+      decode.designation === Designation.LEADER ||
       decode.designation === Designation.MANAGER
     )
       setIsAdmin(true);

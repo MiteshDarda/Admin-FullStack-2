@@ -149,7 +149,7 @@ const ViewTask = () => {
           <>
             {/* Title */}
             <Grid item xs={12}>
-              <h1 className="mb-3" >{title}</h1>
+              <h1 className="mb-3">{title}</h1>
               {complete ? (
                 <span className="text-green-700 bg-green-200 p-2 rounded-full ">
                   Completed
