@@ -137,6 +137,7 @@ const EditTaskForm = (props) => {
           email,
         );
         if (response.status === 201) {
+          // props.getTaskData();
           addRow(response.data.id);
           setPrice(0);
           // setEmail("");
@@ -240,7 +241,7 @@ const EditTaskForm = (props) => {
                   }}
                 >
                   {loading ? (
-                    <CircularProgress size={32} sx={{ color: "white" }} />
+                    <CircularProgress size={32} sx={{ color: "gray" }} />
                   ) : (
                     <AddIcon sx={{ fontSize: "32px", color: "white" }} />
                   )}

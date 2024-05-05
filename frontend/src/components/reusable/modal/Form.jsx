@@ -26,6 +26,9 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
+const passwordRegex =
+  /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,16}$/;
+
 export default function Form(props) {
   const [submitting, setSubmitting] = useState(false);
   const [pass, setPass] = useState("");
@@ -64,14 +67,20 @@ export default function Form(props) {
       }
     });
 
+    if (!passwordRegex.test(pas)) {
+      setSubmitting(true);
+      setError(
+        `Password must contain: \n 
+        one digit from 0 to 9 \n
+         one lowercase  & uppercase letter & special character \n
+          no space and it must be between 8-16 characters long
+          `,
+      );
+      return;
+    }
     if (pas !== confirmpas || flag) {
       setSubmitting(true);
       setError("Passwords do not match!");
-      return;
-    }
-    if (pas.includes(" ")) {
-      setSubmitting(true);
-      setError("Password shouldn't contain empty space.");
       return;
     }
     fields.forEach((element) => {
@@ -81,7 +90,6 @@ export default function Form(props) {
     setSubmitting(false);
     await props.submit();
     handleClose();
-    console.log("submitted");
   };
 
   const getComponent = (field, i) => {
@@ -213,8 +221,9 @@ export default function Form(props) {
                     sx={{
                       marginTop: "10px",
                     }}
+                    style={{ whiteSpace: "pre-line", lineHeight: ".5" }}
                   >
-                    {pass !== confirmPass ? "Passwords do not match!" : error}
+                    {error}
                   </Typography>
                 </Grid>
               ) : (
