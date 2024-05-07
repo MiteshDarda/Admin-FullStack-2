@@ -22,8 +22,7 @@ import Designation from "../../../utils/designation/designation";
 import MonthPickerModal from "./MonthPickerModal";
 import getReceipts from "../../../api/receipts/getReceipts";
 import CircularProgress from "@mui/material/CircularProgress";
-import getTasks from "../../../api/tasks/getTasks";
-import getTime, { formatDate } from "../../../utils/getTime";
+import  { formatDate } from "../../../utils/getTime";
 import Invoice from "./Invoice";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import { getBankDetails } from "../../../api/users/bankDetails";
@@ -85,8 +84,8 @@ export default function StickyHeadTable(props) {
         loaderData.token,
         email,
         searchQuery,
-        month.split("-")[1],
-        month.split("-")[0],
+        month.split(" ")[0],
+        month.split(" ")[1],
       );
       if (response.status === 201) {
         setRows(response.data);

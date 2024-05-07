@@ -1,19 +1,17 @@
 import axios from "axios";
 
-const getReceipts = async (token, email, query, from, to) => {
+const duplicateTask = async (token, numberOfDuplicates,id) => {
   let data = JSON.stringify({
-    taskIdOrTitle: query,
-    from: `${from}`,
-    to: `${to}`,
+    numberOfDuplicates: numberOfDuplicates,
   });
 
   let config = {
     method: "post",
     maxBodyLength: Infinity,
-    url: `${import.meta.env.VITE_URL}/payout/${email}`,
+    url: `${import.meta.env.VITE_URL}/tasks/duplicate/${id}`,
     headers: {
-      "Content-Type": "application/json",
       "ngrok-skip-browser-warning": "skip-browser-warning",
+      "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
     data: data,
@@ -28,4 +26,4 @@ const getReceipts = async (token, email, query, from, to) => {
   }
 };
 
-export default getReceipts;
+export default duplicateTask;

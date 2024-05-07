@@ -1,58 +1,42 @@
-import React, { useState } from "react";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { useState } from "react";
 
-const MonthPicker = ({ setMonth }) => {
-  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
-  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
+const DateRangePicker = ({ setMonth }) => {
+  const [fromDate, setFromDate] = useState(null);
+  const [toDate, setToDate] = useState(null);
 
-  const handleYearChange = (event) => {
-    const newYear = event.target.value;
-    setSelectedYear(newYear);
-    // Update the month with the new year
-    setMonth(`${newYear}-${selectedMonth.toString().padStart(2, "0")}`);
+  const handleFromDateChange = (date) => {
+    setFromDate(date);
+    if (toDate) {
+      setMonth(`${date.toISOString()} ${toDate.toISOString()}`);
+    }
   };
 
-  const handleMonthChange = (event) => {
-    const newMonth = event.target.value;
-    setSelectedMonth(newMonth);
-    // Update the month with the new month
-    setMonth(`${selectedYear}-${newMonth.toString().padStart(2, "0")}`);
+  const handleToDateChange = (date) => {
+    setToDate(date);
+    if (fromDate) {
+      setMonth(`${fromDate.toISOString()} ${date.toISOString()}`);
+    }
   };
-
-  // Generate options for years
-  const yearOptions = Array.from(
-    { length: 20 },
-    (_, i) => new Date().getFullYear() - i,
-  );
-
-  // Generate options for months
-  const monthOptions = Array.from({ length: 12 }, (_, i) => i + 1);
 
   return (
     <div className="flex items-center space-x-4">
-      <select
-        value={selectedYear}
-        onChange={handleYearChange}
-        className="border border-gray-300 rounded-md p-2"
-      >
-        {yearOptions.map((year) => (
-          <option key={year} value={year}>
-            {year}
-          </option>
-        ))}
-      </select>
-      <select
-        value={selectedMonth}
-        onChange={handleMonthChange}
-        className="border border-gray-300 rounded-md p-2"
-      >
-        {monthOptions.map((month) => (
-          <option key={month} value={month}>
-            {month}
-          </option>
-        ))}
-      </select>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <DemoContainer components={["DatePicker", "DatePicker"]}>
+          <DatePicker
+            label="From"
+            value={fromDate}
+            onChange={handleFromDateChange}
+            required
+          />
+          <DatePicker label="To" value={toDate} onChange={handleToDateChange} />
+        </DemoContainer>
+      </LocalizationProvider>
     </div>
   );
 };
 
-export default MonthPicker;
+export default DateRangePicker;

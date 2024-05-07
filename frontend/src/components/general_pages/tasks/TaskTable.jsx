@@ -5,7 +5,7 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-// import { motion } from "framer-motion";
+import ControlPointDuplicateIcon from "@mui/icons-material/ControlPointDuplicate";
 import SearchIcon from "@mui/icons-material/Search";
 import InputAdornment from "@mui/material/InputAdornment";
 import Input from "@mui/material/Input";
@@ -22,7 +22,7 @@ import { useSelector } from "react-redux";
 import getTasks from "../../../api/tasks/getTasks";
 import ConfirmDelete from "../../reusable/modal/confirmDelete";
 import deleteTask from "../../../api/tasks/deleteTask";
-import { useLoaderData, useNavigate, useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import Logout from "../../../utils/logout";
 import { formatDate } from "../../../utils/getTime";
 import searchTask from "../../../api/users/searchTask";
@@ -30,6 +30,7 @@ import Designation from "../../../utils/designation/designation";
 import CircularProgress from "@mui/material/CircularProgress";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useRouteLoaderData } from "react-router-dom";
+import DuplicateTaskModal from "./DuplicateTaskModal";
 
 const columns = [
   { id: "id", label: "Task Id" },
@@ -55,6 +56,8 @@ export default function TaskTable() {
   const [taskToDelete, setTaskToDelete] = useState("");
   const [setAlertMessage, setSeverity] = useOutletContext();
   const [canEditDelete, setCanEditDelete] = useState(false);
+  const [duplicate,setDuplicate] = useState(false);
+  const [duplicateId, setDuplicateId] = useState(false);
   const navigate = useNavigate();
   const user = useSelector((state) => state.users);
 
@@ -155,6 +158,9 @@ export default function TaskTable() {
         return task.id !== taskToDelete;
       });
     });
+    setTotalCount((prev) => {
+      return prev - 1;
+    });
   };
 
   const deleteTaskHandler = async () => {
@@ -162,7 +168,7 @@ export default function TaskTable() {
       const response = await deleteTask(user.token, taskToDelete);
       if (response.status === 200) {
         removeFromRow();
-        setAlertMessage("User deleted successfully");
+        setAlertMessage("Task deleted successfully");
       } else if (response.status === 401) {
         Logout(navigate);
       } else {
@@ -174,6 +180,7 @@ export default function TaskTable() {
       setAlertMessage("Unexpected Error");
     }
   };
+
   return (
     <>
       <form onSubmit={handleSearch}>
@@ -365,6 +372,31 @@ export default function TaskTable() {
                         ) : (
                           <></>
                         )}
+
+                        {canEditDelete ? (
+                          <IconButton
+                            onClick={() => {
+                              setDuplicate(true);
+                              setDuplicateId(row.id);
+                            }}
+                            sx={{
+                              fontSize: "12px",
+                              "&:focus": {
+                                outline: "none",
+                                border: "none",
+                              },
+                            }}
+                          >
+                            <div className="flex gap-1 items-center">
+                              <ControlPointDuplicateIcon sx={{ color: "gray" }} />
+                              <span className="font-[600] text-gray-500 ">
+                                Duplicate
+                              </span>
+                            </div>
+                          </IconButton>
+                        ) : (
+                          <></>
+                        )}
                       </TableCell>
                     </TableRow>
                   );
@@ -380,6 +412,7 @@ export default function TaskTable() {
         content={"Are you sure you want to delete this task"}
         delete={deleteTaskHandler}
       />
+      <DuplicateTaskModal state={duplicate} setState={setDuplicate} duplicateId= {duplicateId} getAllTasks={getAllTasks}/>
     </>
   );
 }

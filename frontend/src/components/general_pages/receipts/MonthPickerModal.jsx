@@ -70,6 +70,8 @@ export default function MonthPickerModal(props) {
                   setAmount(e.target.value);
                 }}
                 sx={{
+                  width:"85%",
+                  marginTop:"15px",
                   "& input": {
                     padding: "12px", // Adjust the padding as needed
                     fontSize: "16px", // Adjust the font size as needed

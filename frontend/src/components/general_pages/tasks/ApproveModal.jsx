@@ -1,6 +1,12 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { Box, CircularProgress, Rating, Typography } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  Rating,
+  Typography,
+  TextField,
+} from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -14,6 +20,7 @@ export default function ApproveModal(props) {
   const [deliveryRating, setDeliveryRating] = useState(0);
   const [communicationRating, setCommunicationRating] = useState(0);
   const [qualityRating, setQualityRating] = useState(0);
+  const [remark, setRemark] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const user = useSelector((state) => state.users);
@@ -32,7 +39,8 @@ export default function ApproveModal(props) {
     if (
       deliveryRating === 0 ||
       communicationRating === 0 ||
-      qualityRating === 0
+      qualityRating === 0 ||
+      remark.trim() === ""
     ) {
       setError(true);
       return;
@@ -46,7 +54,7 @@ export default function ApproveModal(props) {
         communicationRating,
         props.userId,
       );
-      console.log(response);
+      // console.log(response);
       if (response.status === 200) {
         handleClose();
         props.handleApprove();
@@ -105,6 +113,23 @@ export default function ApproveModal(props) {
               }}
             />
           </Box>
+          <Box display="flex" alignItems="center" mt={2}>
+            <TextField
+              type="text"
+              onFocus={() => {
+                setError(false);
+              }}
+              fullWidth
+              label={`Remark`}
+              value={remark}
+              variant="outlined"
+              required
+              onChange={(e) => {
+                setRemark(e.target.value);
+              }}
+              error={error && remark.trim() === "" ? true : false}
+            />
+          </Box>
         </Box>
       </DialogContent>
       <DialogActions>
@@ -132,7 +157,7 @@ export default function ApproveModal(props) {
         color="error"
         sx={{ display: "flex", justifyContent: "center", padding: "3px" }}
       >
-        {error ? "Ratings are required" : ""}
+        {error ? "Ratings and Remarks are required" : ""}
       </Typography>
     </Dialog>
   );
