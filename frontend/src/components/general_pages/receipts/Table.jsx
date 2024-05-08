@@ -22,7 +22,7 @@ import Designation from "../../../utils/designation/designation";
 import MonthPickerModal from "./MonthPickerModal";
 import getReceipts from "../../../api/receipts/getReceipts";
 import CircularProgress from "@mui/material/CircularProgress";
-import  { formatDate } from "../../../utils/getTime";
+import { formatDate } from "../../../utils/getTime";
 import Invoice from "./Invoice";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import { getBankDetails } from "../../../api/users/bankDetails";
@@ -66,6 +66,7 @@ export default function StickyHeadTable(props) {
   useEffect(() => {
     fetchUserData();
   }, []);
+
 
   const fetchUserData = async () => {
     const response = await getBankDetails(loaderData.token);

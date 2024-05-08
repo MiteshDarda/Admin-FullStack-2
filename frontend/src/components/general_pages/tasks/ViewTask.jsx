@@ -27,6 +27,7 @@ import { buttonBlue } from "../../../utils/colors/colors";
 import ApproveModal from "./ApproveModal";
 import ConfirmComplete from "../../reusable/modal/confirmComplete";
 import setTaskToCompleted from "../../../api/tasks/setTaskToCompleted";
+import Feedback from "./Feedback";
 
 const columns = [
   { id: "id", label: "Id" },
@@ -43,6 +44,8 @@ const columns = [
 ];
 
 const ViewTask = () => {
+  const [feedback, setFeedback] = useState(false);
+  const [remark, setRemark] = useState("");
   const [confirmComplete, setConfirmComplete] = useState(false);
   const [approveModal, setApproveModal] = useState(false);
   const [idToApprove, setIdToApprove] = useState("");
@@ -276,13 +279,17 @@ const ViewTask = () => {
                             {canApprove(user.designation) ? (
                               <Button
                                 variant="contained"
-                                disabled={row.completed === 1} // Set disabled to true
+                                // Set disabled to true
                                 sx={{
                                   color: "white", // Text color when disabled
-                                  backgroundColor: buttonBlue, // Background color when disabled
+                                  backgroundColor: row.completed
+                                    ? "green"
+                                    : buttonBlue, // Background color when disabled
                                   "&:hover": {
                                     // Styles on hover
-                                    backgroundColor: buttonBlue, // Background color on hover
+                                    backgroundColor: row.completed
+                                      ? "green"
+                                      : buttonBlue, // Background color on hover
                                   },
                                   "&.Mui-disabled": {
                                     // Styles for the disabled state
@@ -291,13 +298,20 @@ const ViewTask = () => {
                                   },
                                 }}
                                 onClick={() => {
-                                  setIdToApprove(row.id),
-                                    setRoleApproved(row.assignedRole);
-                                  setApproveModal(true);
+                                  if (!row.completed) {
+                                    setIdToApprove(row.id),
+                                      setRoleApproved(row.assignedRole);
+                                    setApproveModal(true);
+                                  } else {
+                                    setFeedback(true);
+                                    setRemark(row.price);
+                                    console.log(row);
+                                  }
+
                                   // handleApprove(row.id, row.assignedRole);
                                 }}
                               >
-                                {row.completed ? "Approved" : "Approve"}
+                                {row.completed ? "Feedback" : "Approve"}
                               </Button>
                             ) : (
                               <></>
@@ -369,6 +383,11 @@ const ViewTask = () => {
           "You are about to set this task in a completed state. Once done it can not be reversed. Are you sure you want to proceed?"
         }
         complete={completeTask}
+      />
+      <Feedback
+      open = {feedback}
+      setOpen = {setFeedback}
+      remark = {remark}
       />
     </div>
   );

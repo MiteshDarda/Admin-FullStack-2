@@ -54,13 +54,13 @@ export default function SignIn() {
          one lowercase  & uppercase letter & special character \n
           no space and it must be between 8-16 characters long`,
       });
-      return;
+      // return;
     }
     if (!emailRegex.test(email)) {
       setError({
         message: `Invalid Email`,
       });
-      return;
+      // return;
     }
 
     const url = `${import.meta.env.VITE_URL}/users/login`;

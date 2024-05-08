@@ -11,7 +11,6 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import NotificationsNoneSharpIcon from "@mui/icons-material/NotificationsNoneSharp";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { Outlet, useNavigate } from "react-router-dom";
@@ -207,7 +206,7 @@ export default function MiniDrawer() {
                 navigate("/profile");
               }}
             >
-              Bank Details
+              Profile
             </MenuItem>
             <MenuItem
               onClick={() => {
