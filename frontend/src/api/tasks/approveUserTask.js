@@ -6,11 +6,13 @@ const approveUserTask = async (
   quality,
   communication,
   userId,
+  feedback
 ) => {
   let data = JSON.stringify({
     delivery,
     quality,
     communication,
+    feedback
   });
 
   let config = {

@@ -18,15 +18,20 @@ export default function Feedback(props) {
       aria-describedby="confirm-delete-description"
     >
       <DialogTitle id="confirm-delete-title">{"Feedback"}</DialogTitle>
-      <DialogContent>
+      <DialogContent
+        sx={{
+          width: "50vw",
+          // minWidth: "500px",
+        }}
+      >
         <Box display="flex" justifyContent="center">
           <Box
-            border="1px solid #ccc"
+            // border="1px solid #ccc"
             padding={2}
             borderRadius="borderRadius"
             width="100%"
           >
-            <Typography variant="body1">{props.remark}</Typography>
+            <Typography variant="body1" sx={{color:"gray"}}>{props.remark}</Typography>
           </Box>
         </Box>
       </DialogContent>

@@ -304,8 +304,7 @@ const ViewTask = () => {
                                     setApproveModal(true);
                                   } else {
                                     setFeedback(true);
-                                    setRemark(row.price);
-                                    console.log(row);
+                                    setRemark(row.feedback);
                                   }
 
                                   // handleApprove(row.id, row.assignedRole);
@@ -375,6 +374,7 @@ const ViewTask = () => {
         setOpen={setApproveModal}
         handleApprove={handleApprove}
         userId={idToApprove}
+        getTaskData={getTaskData}
       />
       <ConfirmComplete
         open={confirmComplete}
@@ -384,11 +384,7 @@ const ViewTask = () => {
         }
         complete={completeTask}
       />
-      <Feedback
-      open = {feedback}
-      setOpen = {setFeedback}
-      remark = {remark}
-      />
+      <Feedback open={feedback} setOpen={setFeedback} remark={remark} />
     </div>
   );
 };

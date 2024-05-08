@@ -53,9 +53,11 @@ export default function ApproveModal(props) {
         qualityRating,
         communicationRating,
         props.userId,
+        remark
       );
       // console.log(response);
       if (response.status === 200) {
+        await props.getTaskData();
         handleClose();
         props.handleApprove();
       } else if (response.status === 401) {
