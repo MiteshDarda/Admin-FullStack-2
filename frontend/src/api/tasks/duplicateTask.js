@@ -1,14 +1,20 @@
 import axios from "axios";
-const setTaskToCompleted = async (token, taskId) => {
+
+const duplicateTask = async (token, numberOfDuplicates,id) => {
+  let data = JSON.stringify({
+    numberOfDuplicates: numberOfDuplicates,
+  });
+
   let config = {
-    method: "put",
+    method: "post",
     maxBodyLength: Infinity,
-    url: `${import.meta.env.VITE_URL}/tasks/${taskId}/complete`,
+    url: `${import.meta.env.VITE_URL}/tasks/duplicate/${id}`,
     headers: {
       "ngrok-skip-browser-warning": "skip-browser-warning",
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
+    data: data,
   };
 
   try {
@@ -20,4 +26,4 @@ const setTaskToCompleted = async (token, taskId) => {
   }
 };
 
-export default setTaskToCompleted;
+export default duplicateTask;

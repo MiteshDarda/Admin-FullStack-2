@@ -27,6 +27,7 @@ import { buttonBlue } from "../../../utils/colors/colors";
 import ApproveModal from "./ApproveModal";
 import ConfirmComplete from "../../reusable/modal/confirmComplete";
 import setTaskToCompleted from "../../../api/tasks/setTaskToCompleted";
+import Feedback from "./Feedback";
 
 const columns = [
   { id: "id", label: "Id" },
@@ -43,6 +44,8 @@ const columns = [
 ];
 
 const ViewTask = () => {
+  const [feedback, setFeedback] = useState(false);
+  const [remark, setRemark] = useState("");
   const [confirmComplete, setConfirmComplete] = useState(false);
   const [approveModal, setApproveModal] = useState(false);
   const [idToApprove, setIdToApprove] = useState("");
@@ -149,7 +152,7 @@ const ViewTask = () => {
           <>
             {/* Title */}
             <Grid item xs={12}>
-              <h1 className="mb-3" >{title}</h1>
+              <h1 className="mb-3">{title}</h1>
               {complete ? (
                 <span className="text-green-700 bg-green-200 p-2 rounded-full ">
                   Completed
@@ -273,6 +276,45 @@ const ViewTask = () => {
                             );
                           })}
                           <TableCell>
+                            {canApprove(user.designation) ? (
+                              <Button
+                                variant="contained"
+                                // Set disabled to true
+                                sx={{
+                                  color: "white", // Text color when disabled
+                                  backgroundColor: row.completed
+                                    ? "green"
+                                    : buttonBlue, // Background color when disabled
+                                  "&:hover": {
+                                    // Styles on hover
+                                    backgroundColor: row.completed
+                                      ? "green"
+                                      : buttonBlue, // Background color on hover
+                                  },
+                                  "&.Mui-disabled": {
+                                    // Styles for the disabled state
+                                    color: "white", // Text color when disabled
+                                    backgroundColor: "green", // Background color when disabled
+                                  },
+                                }}
+                                onClick={() => {
+                                  if (!row.completed) {
+                                    setIdToApprove(row.id),
+                                      setRoleApproved(row.assignedRole);
+                                    setApproveModal(true);
+                                  } else {
+                                    setFeedback(true);
+                                    setRemark(row.feedback);
+                                  }
+
+                                  // handleApprove(row.id, row.assignedRole);
+                                }}
+                              >
+                                {row.completed ? "Feedback" : "Approve"}
+                              </Button>
+                            ) : (
+                              <></>
+                            )}
                             {canChat(
                               user.designation,
                               row.assignedToUserDesignation,
@@ -284,35 +326,6 @@ const ViewTask = () => {
                               >
                                 <ForumRoundedIcon />
                               </IconButton>
-                            ) : (
-                              <></>
-                            )}
-                            {canApprove(user.designation) ? (
-                              <Button
-                                variant="contained"
-                                disabled={row.completed === 1} // Set disabled to true
-                                sx={{
-                                  color: "white", // Text color when disabled
-                                  backgroundColor: buttonBlue, // Background color when disabled
-                                  "&:hover": {
-                                    // Styles on hover
-                                    backgroundColor: buttonBlue, // Background color on hover
-                                  },
-                                  "&.Mui-disabled": {
-                                    // Styles for the disabled state
-                                    color: "white", // Text color when disabled
-                                    backgroundColor: "green", // Background color when disabled
-                                  },
-                                }}
-                                onClick={() => {
-                                  setIdToApprove(row.id),
-                                    setRoleApproved(row.assignedRole);
-                                  setApproveModal(true);
-                                  // handleApprove(row.id, row.assignedRole);
-                                }}
-                              >
-                                {row.completed ? "Approved" : "Approve"}
-                              </Button>
                             ) : (
                               <></>
                             )}
@@ -361,6 +374,7 @@ const ViewTask = () => {
         setOpen={setApproveModal}
         handleApprove={handleApprove}
         userId={idToApprove}
+        getTaskData={getTaskData}
       />
       <ConfirmComplete
         open={confirmComplete}
@@ -370,6 +384,7 @@ const ViewTask = () => {
         }
         complete={completeTask}
       />
+      <Feedback open={feedback} setOpen={setFeedback} remark={remark} />
     </div>
   );
 };

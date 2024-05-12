@@ -11,8 +11,7 @@ const getTime = (dateString) => {
 };
 
 export function formatDate(dateString) {
-  if(dateString === null || dateString === undefined)
-  dateString= new Date();
+  if (dateString === null || dateString === undefined) dateString = new Date();
   const date = new Date(dateString);
   const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const dayOfWeek = daysOfWeek[date.getDay()];

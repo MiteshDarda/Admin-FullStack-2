@@ -1,16 +1,12 @@
 import axios from "axios";
 
-const deleteTask = async (
-  token,
-  taskId,
-) => {
+const deleteTask = async (token, taskId) => {
   let config = {
     method: "delete",
     maxBodyLength: Infinity,
     url: `${import.meta.env.VITE_URL}/tasks/${taskId}`,
     headers: {
-      Authorization:
-        `Bearer ${token}`,
+      Authorization: `Bearer ${token}`,
     },
   };
 

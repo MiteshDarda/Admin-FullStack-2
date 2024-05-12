@@ -13,7 +13,9 @@ const Background = () => {
       const designation = localStorage.getItem("designation");
       const name = localStorage.getItem("name");
       const isVerified = localStorage.getItem("isVerified");
-      dispatch(userAction.setToken({ token, email, designation, name, isVerified }));
+      dispatch(
+        userAction.setToken({ token, email, designation, name, isVerified }),
+      );
     }
     console.log(users);
   }, [users]);

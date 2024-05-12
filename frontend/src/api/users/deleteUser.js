@@ -16,7 +16,7 @@ const deleteUser = async (token, user, setSeverity, setAlertMessage) => {
   } catch (e) {
     console.log(e);
     setSeverity("error");
-    setAlertMessage("Something went wrong. Try refreshing the page.")
+    setAlertMessage("Something went wrong. Try refreshing the page.");
     return e.response;
   }
 };

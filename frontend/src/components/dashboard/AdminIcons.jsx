@@ -14,8 +14,9 @@ const AdminIcons = () => {
   const location = useLocation();
   return (
     <List>
-      {["Users",
-      //  "Designations", "Managers", "Members"
+      {[
+        "Users",
+        //  "Designations", "Managers", "Members"
       ].map((text, index) => (
         <ListItem key={text} disablePadding sx={{ display: "block" }}>
           <ListItemButton

@@ -19,7 +19,7 @@ export default function ConfirmDelete(props) {
       <DialogTitle id="confirm-delete-title">{"Confirm Delete"}</DialogTitle>
       <DialogContent>
         <DialogContentText id="confirm-delete-description">
-         {props.content}
+          {props.content}
         </DialogContentText>
       </DialogContent>
       <DialogActions>

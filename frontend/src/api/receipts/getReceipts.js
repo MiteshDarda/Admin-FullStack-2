@@ -1,10 +1,10 @@
 import axios from "axios";
 
-const getReceipts = async (token, email, query, month, year) => {
+const getReceipts = async (token, email, query, from, to) => {
   let data = JSON.stringify({
     taskIdOrTitle: query,
-    month: `${month}`,
-    year: `${year}`,
+    from: `${from}`,
+    to: `${to}`,
   });
 
   let config = {
@@ -26,7 +26,6 @@ const getReceipts = async (token, email, query, month, year) => {
     console.log(e);
     return e.response;
   }
-
 };
 
 export default getReceipts;

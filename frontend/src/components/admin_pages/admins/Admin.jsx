@@ -6,7 +6,6 @@ import Form from "../../reusable/modal/Form";
 import createUsers from "../../../api/users/createUsers";
 import { useSelector } from "react-redux";
 import Logout from "../../../utils/logout";
-import { formatDate } from "../../../utils/getTime";
 import { canCreateUser } from "../../../utils/designation/canCreateUser";
 
 const User = () => {
@@ -31,7 +30,7 @@ const User = () => {
     },
     {
       id: "email",
-      type: "text",
+      type: "email",
       label: "Email",
       state: email,
       setState: setEmail,

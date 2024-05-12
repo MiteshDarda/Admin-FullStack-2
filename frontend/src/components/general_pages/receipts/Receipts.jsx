@@ -38,7 +38,12 @@ const Receipts = () => {
         </div>
       </div>
       <div className="p-8 bg-gray-100">
-        <StickyHeadTable state={state} setState={setState} monthlyTask={monthlyTask} setMonthlyTask={setMonthlyTask} />
+        <StickyHeadTable
+          state={state}
+          setState={setState}
+          monthlyTask={monthlyTask}
+          setMonthlyTask={setMonthlyTask}
+        />
       </div>
     </>
   );

@@ -13,6 +13,11 @@ import { getMyDetails, loginAPI } from "../../api/login/login";
 import { useDispatch } from "react-redux";
 import { userAction } from "../../store/userSlice";
 
+const passwordRegex =
+  /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,16}$/;
+
+const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]+$/i;
+
 const defaultTheme = createTheme();
 
 export default function SignIn() {
@@ -33,7 +38,6 @@ export default function SignIn() {
 
     if (email === "") {
       setEmailEmpty(true);
-      console.log("Email is Empty");
     }
     if (password === "") setPasswordEmpty(true);
 
@@ -42,6 +46,22 @@ export default function SignIn() {
         status: 400,
         message: "Email/Password Empty",
       };
+
+    if (!passwordRegex.test(password)) {
+      setError({
+        message: `Password must contain: \n 
+        one digit from 0 to 9 \n
+         one lowercase  & uppercase letter & special character \n
+          no space and it must be between 8-16 characters long`,
+      });
+      // return;
+    }
+    if (!emailRegex.test(email)) {
+      setError({
+        message: `Invalid Email`,
+      });
+      // return;
+    }
 
     const url = `${import.meta.env.VITE_URL}/users/login`;
     try {
@@ -93,6 +113,7 @@ export default function SignIn() {
               </Typography>
               <Box component="form" onSubmit={handleSubmit} noValidate>
                 <TextField
+                  type="email"
                   margin="normal"
                   required
                   fullWidth

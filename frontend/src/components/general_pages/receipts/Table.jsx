@@ -22,8 +22,7 @@ import Designation from "../../../utils/designation/designation";
 import MonthPickerModal from "./MonthPickerModal";
 import getReceipts from "../../../api/receipts/getReceipts";
 import CircularProgress from "@mui/material/CircularProgress";
-import getTasks from "../../../api/tasks/getTasks";
-import getTime, { formatDate } from "../../../utils/getTime";
+import { formatDate } from "../../../utils/getTime";
 import Invoice from "./Invoice";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import { getBankDetails } from "../../../api/users/bankDetails";
@@ -48,11 +47,29 @@ const columns = [
 ];
 
 // Get the current month and year
-const currentMonth = new Date().getMonth() + 1; // Months are 0-indexed, so we add 1
-const currentYear = new Date().getFullYear();
+function getCurrentMonthDates() {
+  // Get the current date
+  let currentDate = new Date();
 
-// Format the current month and year as a string in the format 'YYYY-MM'
-const currentMonthYear = `${currentYear}-${currentMonth < 10 ? "0" + currentMonth : currentMonth}`;
+  // Calculate the first day of the current month
+  let firstDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+
+  // Calculate the last day of the current month
+  let lastDay = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth() + 1,
+    0,
+  );
+
+  // Format the dates as strings in the desired format
+  const firstDateString = `${firstDay.getFullYear()}-${String(firstDay.getMonth() + 1).padStart(2, "0")}-${String(firstDay.getDate()).padStart(2, "0")}T12:20:23.000Z`;
+  const lastDateString = `${lastDay.getFullYear()}-${String(lastDay.getMonth() + 1).padStart(2, "0")}-${String(lastDay.getDate()).padStart(2, "0")}T12:20:23.000Z`;
+
+  // Concatenate the dates with a space in between
+  return `${firstDateString} ${lastDateString}`;
+}
+
+const currentMonthYear =getCurrentMonthDates();
 
 export default function StickyHeadTable(props) {
   const loaderData = useRouteLoaderData("root");
@@ -85,8 +102,8 @@ export default function StickyHeadTable(props) {
         loaderData.token,
         email,
         searchQuery,
-        month.split("-")[1],
-        month.split("-")[0],
+        month.split(" ")[0],
+        month.split(" ")[1],
       );
       if (response.status === 201) {
         setRows(response.data);

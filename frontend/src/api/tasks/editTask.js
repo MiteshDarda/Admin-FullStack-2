@@ -1,6 +1,12 @@
 import axios from "axios";
 
-const editTask = async (token, title, description, estimatedCompletion, taskId) => {
+const editTask = async (
+  token,
+  title,
+  description,
+  estimatedCompletion,
+  taskId,
+) => {
   let data = JSON.stringify({
     title,
     description,

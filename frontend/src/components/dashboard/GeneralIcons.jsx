@@ -134,7 +134,6 @@ const VerifiedIcons = () => {
       </ListItem>
 
       <ListItem key={"Payout"} disablePadding sx={{ display: "block" }}>
-        
         <ListItemButton
           sx={{
             minHeight: 48,

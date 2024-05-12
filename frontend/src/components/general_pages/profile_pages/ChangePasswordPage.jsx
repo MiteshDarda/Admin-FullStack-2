@@ -5,6 +5,9 @@ import Logout from "../../../utils/logout";
 import { useOutletContext } from "react-router-dom";
 import { changePassword } from "../../../api/users/changePassword";
 
+const passwordRegex =
+  /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,16}$/;
+
 const ChangePassword = () => {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -54,8 +57,14 @@ const ChangePassword = () => {
       setSubmitted(true);
       return;
     }
-    if (newPassword.includes(" ")) {
-      setError({ message: "Password shouldn't contain empty space." });
+    if (!passwordRegex.test(newPassword)) {
+      setError({
+        message: `Password must contain: \n 
+        one digit from 0 to 9 \n
+         one lowercase  & uppercase letter & special character \n
+          no space and it must be between 8-16 characters long
+          `
+      });
       return;
     }
     setSubmitted(true);

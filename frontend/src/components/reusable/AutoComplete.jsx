@@ -19,10 +19,9 @@ export default function Asynchronous(props) {
       if (user.token) {
         const response = await getUsers(user.token, limit, page);
         if (response.status === 200) {
-          try{
+          try {
             props?.setPeople(response.data.people);
-          }
-          catch(e){
+          } catch (e) {
             console.log("");
           }
           setOptions(response.data.people);

@@ -10,7 +10,7 @@ const EditTask = () => {
   const user = useSelector((state) => state.users);
   const location = useLocation();
   const path = location.pathname.split("/");
-  const [rows,setRowsData] = useState([]);
+  const [rows, setRowsData] = useState([]);
   const [taskData, setTaskData] = useState({
     title: "",
     description: "",
@@ -42,7 +42,7 @@ const EditTask = () => {
     <div className="p-[2rem] bg-gray-100 ">
       <h1 className="text-[32px] my-[1rem] font-bold">Edit Task</h1>
       <CreateTaskForm data={taskData} />
-      <EditTaskForm rows = {rows} />
+      <EditTaskForm rows={rows} getTaskData={getTaskData} />
     </div>
   );
 };

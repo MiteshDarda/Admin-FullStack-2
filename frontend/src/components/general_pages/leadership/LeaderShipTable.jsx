@@ -43,7 +43,7 @@ export default function LeaderShipTable() {
             if (rows.length === 0) setRows(response.data.leadership);
             else {
               setRows((prevState) => {
-                  return [...prevState, ...response.data.leadership];
+                return [...prevState, ...response.data.leadership];
               });
             }
         }
@@ -53,7 +53,6 @@ export default function LeaderShipTable() {
     }
   };
 
- 
   // useEffect(() => {
   //   getLeadershipRanking();
   // }, [page]);
@@ -63,43 +62,42 @@ export default function LeaderShipTable() {
   }, [user]);
 
   return (
-      <Paper
-        sx={{
-          width: "100%",
-          overflow: "hidden",
-        }}
-      >
-        <TableContainer>
-          <Table stickyHeader aria-label="sticky table">
-            <TableHead>
-              <TableRow>
-                {columns.map((column) => (
-                  <TableCell key={column.id} sx={{ fontWeight: 600 }}>
-                    {column.label}
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map((row, index) => {
-                return (
-                  <TableRow hover role="checkbox" key={row.user_email}>
-                    {columns.map((column) => {
-                      let value = row[column.id];
-                      if (column.id === "user_designation")
-                        value = formatDesignation(value);
-                      else if (column.id === "id") value = index + 1;
-                      else if (column.id === "totalAverage")
-                        value = formatRanking(row.average);
-                      return <TableCell key={column.id}>{value}</TableCell>;
-                    })}
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Paper>
-
+    <Paper
+      sx={{
+        width: "100%",
+        overflow: "hidden",
+      }}
+    >
+      <TableContainer>
+        <Table stickyHeader aria-label="sticky table">
+          <TableHead>
+            <TableRow>
+              {columns.map((column) => (
+                <TableCell key={column.id} sx={{ fontWeight: 600 }}>
+                  {column.label}
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rows.map((row, index) => {
+              return (
+                <TableRow hover role="checkbox" key={row.user_email}>
+                  {columns.map((column) => {
+                    let value = row[column.id];
+                    if (column.id === "user_designation")
+                      value = formatDesignation(value);
+                    else if (column.id === "id") value = index + 1;
+                    else if (column.id === "totalAverage")
+                      value = formatRanking(row.average);
+                    return <TableCell key={column.id}>{value}</TableCell>;
+                  })}
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Paper>
   );
 }
