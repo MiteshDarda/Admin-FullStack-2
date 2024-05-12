@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { CreateTasksDto } from './dto/create-tasks.dto';
-import { Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { TasksRepository } from './entities/tasks.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AddUserDto } from './dto/add-user.dto';
@@ -21,6 +21,7 @@ export class TasksService {
     private readonly tasksAssignedRepository: Repository<TasksAssignedRepository>,
     @InjectRepository(UserRepository)
     private readonly userRepository: Repository<UserRepository>,
+    private dataSource: DataSource,
   ) {}
 
   //* Creates a Single Task .
@@ -93,7 +94,7 @@ export class TasksService {
 
       await this.tasksRepository
         .createQueryBuilder('tasks')
-        .delete()
+        .update({ deleted: true })
         .where('tasks.id = :taskId', { taskId })
         .execute();
       return {
@@ -113,6 +114,7 @@ export class TasksService {
       const tasks = await this.tasksRepository
         .createQueryBuilder('tasks')
         .select()
+        .where('tasks.deleted = false')
         .leftJoinAndSelect('tasks.taskAssignedBy', 'taskAssignedBy')
         .leftJoinAndSelect('tasks.taskAssignedTo', 'taskAssignedTo')
         .skip(offset)
@@ -175,6 +177,7 @@ export class TasksService {
     const tasks = await this.tasksRepository
       .createQueryBuilder('tasks')
       .where('tasks.title LIKE :title', { title: `%${title}%` })
+      .orWhere('tasks.id LIKE :title')
       .skip(offset)
       .take(limit)
       .getManyAndCount();
@@ -185,7 +188,7 @@ export class TasksService {
   }
 
   //* Get a Detailed Task and all the users .
-  async getTaskDetaild(taskId: number) {
+  async getTaskDetail(taskId: number) {
     try {
       const task = await this.getTaskHELPER(taskId);
       if (!task) throw new HttpException('Give a Valid Task', 400);
@@ -240,7 +243,6 @@ export class TasksService {
           task: taskId,
         })
         .execute();
-      console.log(addUserDto.assignedTo);
       await this.helper.sendEmail(
         addUserDto.assignedTo,
         'New Task',
@@ -330,6 +332,7 @@ export class TasksService {
         .update({
           completedOn: new Date(),
           completed: true,
+          feedback: completeUserTaskDto.feedback,
         })
         .where('tasks_assigned.id = :userId', { userId })
         .execute();
@@ -358,6 +361,81 @@ export class TasksService {
     } catch (error) {
       console.log(error);
       throw error;
+    }
+  }
+
+  //* ---------------------------- Task Duplicate ----------------------------
+  async duplicateTask(
+    myEmail: string,
+    numberOfDuplicates: number,
+    taskId: number,
+  ) {
+    const myDesignation = await this.helper.getDesignation(myEmail);
+    myDesignation;
+    const queryRunner = this.dataSource.createQueryRunner();
+    try {
+      const task = await this.getTaskHELPER(taskId);
+      if (!task) throw new HttpException('Give a Valid Task', 400);
+
+      const tasksAssigned = await this.tasksAssignedRepository
+        .createQueryBuilder('tasks_assigned')
+        .select()
+        .where('tasks_assigned.task = :taskId', { taskId })
+        .leftJoinAndSelect('tasks_assigned.assignedTo', 'assignedTo')
+        .getManyAndCount();
+
+      task.id = null;
+      task.isCompleted = null;
+      task.completedOn = null;
+      delete task.id;
+      delete task.isCompleted;
+      delete task.completedOn;
+      task.title = '(Duplicate)' + task.title;
+      const newTasks = [];
+      const newUsersTasks = [];
+      await queryRunner.startTransaction();
+      for (let i = 0; i < numberOfDuplicates; ++i) {
+        const newTask = new TasksRepository();
+        Object.assign(newTask, task);
+        const user = await queryRunner.manager.findOneBy(UserRepository, {
+          email: myEmail,
+        });
+        newTask.taskAssignedBy = user;
+        newTasks.push(newTask);
+      }
+      const addedTasks = await queryRunner.manager.insert(
+        TasksRepository,
+        newTasks,
+      );
+
+      addedTasks?.identifiers?.filter((idf) => {
+        const taskId = idf?.id;
+        if (!taskId) return;
+        tasksAssigned[0].filter((usr) => {
+          const newUserTask = new TasksAssignedRepository();
+          usr.id = null;
+          usr.completed = null;
+          usr.completedOn = null;
+          delete usr?.id;
+          delete usr?.completed;
+          delete usr?.completedOn;
+          Object.assign(newUserTask, usr);
+          newUserTask.task = taskId;
+          newUsersTasks.push(newUserTask);
+        });
+      });
+
+      await queryRunner.manager.insert(TasksAssignedRepository, newUsersTasks);
+      await queryRunner.commitTransaction();
+      return {
+        message: 'done',
+      };
+    } catch (error) {
+      await queryRunner.rollbackTransaction();
+      console.log(error);
+      throw error;
+    } finally {
+      await queryRunner.release();
     }
   }
 

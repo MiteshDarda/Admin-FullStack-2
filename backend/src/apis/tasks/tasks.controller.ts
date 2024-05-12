@@ -21,6 +21,7 @@ import { SearchTaskDto } from './dto/search-task.dto';
 import { TaskIdDto } from './dto/task-id.dto';
 import { UserIdDto } from './dto/user-id.dto';
 import { CompleteUserTaskDto } from './dto/complete-user-task.dto';
+import { TaskDuplicationDto } from './dto/task-duplication.dto';
 
 @Controller('tasks')
 export class TasksController {
@@ -116,8 +117,8 @@ export class TasksController {
   //* 8. Show a Single Detailed Task with users .
   @Get(':taskId')
   @UseGuards(AuthGuard)
-  getTaskDetaild(@Param() param: TaskIdDto) {
-    return this.tasksService.getTaskDetaild(param.taskId);
+  getTaskDetail(@Param() param: TaskIdDto) {
+    return this.tasksService.getTaskDetail(param.taskId);
   }
 
   //* 9. This Updates a Task .
@@ -141,5 +142,21 @@ export class TasksController {
   ) {
     const myEmail = this.appService.convertJWT(authorizationHeader);
     return this.tasksService.delete(myEmail, param.taskId);
+  }
+
+  //* ---------------------------- Task Duplicate ----------------------------
+  @Post('duplicate/:taskId')
+  @UseGuards(AuthGuard)
+  duplicateTask(
+    @Headers('authorization') authorizationHeader: string,
+    @Body() taskDuplicationDto: TaskDuplicationDto,
+    @Param() param: TaskIdDto,
+  ) {
+    const myEmail = this.appService.convertJWT(authorizationHeader);
+    return this.tasksService.duplicateTask(
+      myEmail,
+      taskDuplicationDto.numberOfDuplicates,
+      param.taskId,
+    );
   }
 }

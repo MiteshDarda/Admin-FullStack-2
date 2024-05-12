@@ -40,10 +40,10 @@ export class PayoutService {
   async userPayout(
     email: string,
     taskIdOrTitle?: string,
-    year?: number,
-    month?: number,
     page?: number,
     limit?: number,
+    fromDate?: Date,
+    toDate?: Date,
   ) {
     try {
       const user = await this.userRepository
@@ -51,13 +51,14 @@ export class PayoutService {
         .where('user.email = :email', { email })
         .getOne();
       if (!user) throw new HttpException('Invalid Email', 400);
-      const datas = await this.userPayoutGetData(
+
+      const datas = await this.userPayoutGetDataFromToDate(
         taskIdOrTitle,
         email,
-        month,
-        year,
         page,
         limit,
+        fromDate,
+        toDate,
       );
 
       const orderedData = this.userPayoutGetOrderedData(datas);
@@ -143,6 +144,55 @@ export class PayoutService {
             qb.where('MONTH(userTask.completedOn) = :month', {
               month,
             });
+          else {
+            return qb;
+          }
+        }),
+      )
+      .skip(offset)
+      .take(limit)
+      .leftJoin(TasksAssignedRepository, 'userTask', 'userTask.task = tasks.id')
+      .leftJoin(UserRepository, 'user', 'userTask.assignedTo = user.email')
+      .getRawMany();
+  }
+
+  async userPayoutGetDataFromToDate(
+    taskIdOrTitle: string,
+    email: string,
+    page: number,
+    limit: number,
+    fromDate: Date,
+    toDate: Date,
+  ) {
+    const offset = (page - 1) * limit;
+    return await this.tasksRepository
+      .createQueryBuilder('tasks')
+      .select()
+      .addSelect('userTask')
+      .addSelect('user')
+      .where(
+        new Brackets((qb) => {
+          if (taskIdOrTitle) {
+            return qb
+              .where('tasks.id LIKE :taskIdOrTitle', {
+                taskIdOrTitle: `%${taskIdOrTitle}%`,
+              })
+              .orWhere('tasks.title LIKE :taskIdOrTitle');
+          } else return qb;
+        }),
+      )
+      .andWhere('userTask.assignedTo = :email', { email })
+      .andWhere('userTask.completed = true')
+      .andWhere(
+        new Brackets((qb) => {
+          if (fromDate && toDate)
+            return qb.where(
+              'userTask.completedOn BETWEEN :fromDate AND :toDate',
+              {
+                fromDate,
+                toDate,
+              },
+            );
           else {
             return qb;
           }
