@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocation, useRouteLoaderData } from "react-router-dom";
-import { useNavigate } from "react-router-dom/dist/umd/react-router-dom.development";
 import io from "socket.io-client";
 import SendIcon from "@mui/icons-material/Send";
 import axios from "axios";
@@ -9,7 +8,6 @@ import MyMessage from "./MyMessage";
 
 const ChatPage = () => {
   const loaderData = useRouteLoaderData("root");
-  const navigate = useNavigate();
   const [connected, setConnected] = useState(false);
   const [socket, setSocket] = useState(null);
   const [message, setMessage] = useState("");
@@ -103,16 +101,10 @@ const ChatPage = () => {
 
   const handleScroll = () => {
     const container = containerRef.current;
-    // console.log(
-    //   container.scrollHeight,
-    //   container.scrollTop,
-    //   container.clientHeight,
-    // );
     if (
       container.scrollHeight + container.scrollTop - 10 <=
       container.clientHeight
     ) {
-      // console.log(pageNumber);
       setPageNumber((prev) => prev + 1);
     }
   };

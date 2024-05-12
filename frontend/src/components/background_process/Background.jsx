@@ -17,7 +17,6 @@ const Background = () => {
         userAction.setToken({ token, email, designation, name, isVerified }),
       );
     }
-    console.log(users);
   }, [users]);
   return <></>;
 };
