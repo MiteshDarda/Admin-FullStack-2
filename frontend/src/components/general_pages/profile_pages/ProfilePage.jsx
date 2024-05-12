@@ -14,11 +14,15 @@ export default function ProfilePage() {
   const [submitted, setSubmitted] = useState(false);
   const [address, setAddress] = useState("");
   const [mobile, setMobile] = useState("");
+  const [mobileError, setMobileError] = useState(false);
   const [nameOnPassbook, setNameOnPassbook] = useState("");
   const [bankName, setBankName] = useState("");
   const [accountNumber, setAccountNumber] = useState("");
+  const [accountNumberError, setAccountNumberError] = useState(false);
   const [ifsc, setIfsc] = useState("");
+  const [ifscError, setIfscError] = useState(false);
   const [panNum, setPanNum] = useState("");
+  const [panNumError, setPanNumError] = useState(false);
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
@@ -50,42 +54,49 @@ export default function ProfilePage() {
       value: address,
       setter: setAddress,
       id: "address",
+      error: false,
     },
     {
       title: "Mobile",
       value: mobile,
       setter: setMobile,
       id: "mobile",
+      error: mobileError,
     },
     {
       title: "Name on passbook",
       value: nameOnPassbook,
       setter: setNameOnPassbook,
       id: "nameOnPassbook",
+      error: false,
     },
     {
       title: "Bank Name",
       value: bankName,
       setter: setBankName,
       id: "bankName",
+      error: false,
     },
     {
       title: "Account Number",
       value: accountNumber,
       setter: setAccountNumber,
       id: "accountNumber",
+      error: accountNumberError,
     },
     {
       title: "IFSC Code",
       value: ifsc,
       setter: setIfsc,
       id: "ifsc",
+      error: ifscError,
     },
     {
       title: "Pan Number",
       value: panNum,
       setter: setPanNum,
       id: "panNum",
+      error: panNumError,
     },
   ];
 
@@ -95,6 +106,10 @@ export default function ProfilePage() {
       value.setter((old) => old.trim());
     });
     setSubmitted(false);
+    setMobileError(false);
+    setAccountNumberError(false);
+    setIfscError(false);
+    setPanNumError(false);
     if (
       address.trim() === "" ||
       mobile.trim() === "" ||
@@ -107,7 +122,25 @@ export default function ProfilePage() {
       setSubmitted(true);
       return;
     }
+    let isError = false;
+    if (mobile.length < 10) {
+      isError = true;
+      setMobileError(true);
+    }
+    if (accountNumber.length < 9) {
+      isError = true;
+      setAccountNumberError(true);
+    }
+    if (ifsc.length != 11) {
+      isError = true;
+      setIfscError(true);
+    }
+    if (panNum.length != 10) {
+      isError = true;
+      setPanNumError(true);
+    }
 
+    if (isError) return;
     let data = JSON.stringify({
       address: address,
       mobile: mobile,
@@ -147,7 +180,11 @@ export default function ProfilePage() {
               id={value.id}
               name={value.id}
               variant="outlined"
-              error={submitted && value.value.trim() === "" ? true : false}
+              error={
+                (submitted && value.value.trim() === "") || value.error
+                  ? true
+                  : false
+              }
               required
             />
           </div>
@@ -164,45 +201,4 @@ export default function ProfilePage() {
       </div>
     </form>
   );
-
-  // return (
-  //   <form onSubmit={getVerified}>
-  //     <div className="w-[50vw] mx-auto">
-  //       {formValues.map((value, i) => {
-  //         return (
-  //           <div className="mb-5" key={i}>
-  //             <label
-  //               htmlFor={value.id}
-  //               className="text-start block mb-2 text-sm font-medium text-gray-900 dark:text-black"
-  //             >
-  //               {value.title}
-  //             </label>
-  //             <input
-  //               type="text"
-  //               value={value.value}
-  //               onChange={(event) => {
-  //                 value.setter(event.target.value);
-  //               }}
-  //               id={value.id}
-  //               name={value.id}
-  //               className={` shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-blue-100 dark:border-gray-600 dark:placeholder-gray-900 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light ${
-  //                 submitted &&
-  //                 value.value.trim() === "" &&
-  //                 "ring-[4px] ring-red-500"
-  //               }`}
-  //               required
-  //             />
-  //           </div>
-  //         );
-  //       })}
-
-  //       <button
-  //         type="submit"
-  //         className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-  //       >
-  //         Save
-  //       </button>
-  //     </div>
-  //   </form>
-  // );
 }
