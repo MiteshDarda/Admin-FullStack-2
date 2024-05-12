@@ -82,25 +82,33 @@ export const canChat = (myDesignation, yourDesignation) => {
     myDesignation === Designation.ADMIN
   ) {
     if (
-      yourDesignation === Designation.MEMBER ||
-      yourDesignation === Designation.VIDEO_EDITOR ||
-      yourDesignation === Designation.LEADER
+      yourDesignation === Designation.SUPER_ADMIN ||
+      yourDesignation === Designation.ADMIN ||
+      yourDesignation === Designation.MANAGER ||
+      yourDesignation === Designation.LEADER ||
+      yourDesignation === Designation.QA ||
+      yourDesignation === Designation.SEO ||
+      yourDesignation === Designation.THUMBNAIL_DESIGNER ||
+      yourDesignation === Designation.SCRIPT_WRITER ||
+      yourDesignation === Designation.VOICE_OVER_ASSIST
     )
-      return false;
-    else return true;
+      return true;
+    else return false;
   } else if (myDesignation === Designation.MANAGER) {
     if (
       yourDesignation === Designation.ADMIN ||
       yourDesignation === Designation.LEADER ||
       yourDesignation === Designation.MANAGER ||
-      yourDesignation === Designation.QA
+      yourDesignation === Designation.QA ||
+      yourDesignation === Designation.THUMBNAIL_DESIGNER ||
+      yourDesignation === Designation.SCRIPT_WRITER ||
+      yourDesignation === Designation.VOICE_OVER_ASSIST
     )
       return true;
     else return false;
   } else if (myDesignation === Designation.LEADER) {
     if (
       yourDesignation === Designation.MANAGER ||
-      yourDesignation === Designation.LEADER ||
       yourDesignation === Designation.MEMBER ||
       yourDesignation === Designation.VIDEO_EDITOR ||
       yourDesignation === Designation.QA
@@ -116,6 +124,7 @@ export const canChat = (myDesignation, yourDesignation) => {
     if (
       yourDesignation === Designation.ADMIN ||
       yourDesignation === Designation.SUPER_ADMIN ||
+      yourDesignation === Designation.MANAGER ||
       yourDesignation === Designation.QA
     )
       return true;
@@ -127,6 +136,13 @@ export const canChat = (myDesignation, yourDesignation) => {
       yourDesignation === Designation.LEADER ||
       yourDesignation === Designation.SEO ||
       yourDesignation === Designation.QA
+    )
+      return true;
+    else return false;
+  } else if (myDesignation === Designation.VIDEO_EDITOR) {
+    if (
+      yourDesignation === Designation.QA ||
+      yourDesignation === Designation.LEADER
     )
       return true;
     else return false;
