@@ -13,7 +13,6 @@ const getRanking = async (token, limit, page) => {
 
   try {
     const response = await axios.request(config);
-    // console.log(response);
     return response;
   } catch (e) {
     console.log(e);

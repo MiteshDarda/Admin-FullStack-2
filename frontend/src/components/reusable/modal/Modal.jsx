@@ -50,11 +50,7 @@ export default function Modal(props) {
           <CloseIcon />
         </IconButton>
         <DialogContent dividers>
-          <form
-            onSubmit={() => {
-              console.log("Submitted");
-            }}
-          >
+          <form>
             <Grid container spacing={2}>
               {Object.keys(props.input).map((field) => {
                 return (

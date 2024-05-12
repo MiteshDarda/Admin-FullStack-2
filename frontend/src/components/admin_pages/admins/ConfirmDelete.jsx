@@ -23,7 +23,6 @@ export default function ConfirmDelete(props) {
         setSeverity,
         setAlertMessage,
       );
-      console.log(response);
       if (response.status === 200) {
         setAlertMessage("User deleted successfully.");
         props.getAllUsers();

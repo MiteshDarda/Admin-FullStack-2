@@ -97,7 +97,6 @@ export class TasksController {
     @Param() param: TaskIdDto,
     @Headers('authorization') authorizationHeader: string,
   ) {
-    console.log(param.taskId);
     const myEmail = this.appService.convertJWT(authorizationHeader);
     return this.tasksService.completeTask(myEmail, param.taskId);
   }

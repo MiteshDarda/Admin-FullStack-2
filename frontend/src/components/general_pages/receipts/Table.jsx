@@ -69,7 +69,7 @@ function getCurrentMonthDates() {
   return `${firstDateString} ${lastDateString}`;
 }
 
-const currentMonthYear =getCurrentMonthDates();
+const currentMonthYear = getCurrentMonthDates();
 
 export default function StickyHeadTable(props) {
   const loaderData = useRouteLoaderData("root");
@@ -290,9 +290,6 @@ export default function StickyHeadTable(props) {
                               <motion.div
                                 whileHover={{ scale: 1.1 }}
                                 whileTap={{ scale: 0.9 }}
-                                onClick={() => {
-                                  console.log("clicked");
-                                }}
                               >
                                 <DownloadForOfflineIcon
                                   sx={{ color: "#006eff", cursor: "pointer" }}

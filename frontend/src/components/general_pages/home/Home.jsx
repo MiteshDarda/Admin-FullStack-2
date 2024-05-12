@@ -1,19 +1,11 @@
 import { Avatar } from "@mui/material";
-import { useEffect } from "react";
-import { useNavigate, useRouteLoaderData } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Logout from "../../../utils/logout";
 import { useSelector } from "react-redux";
 
 const Home = () => {
-  const loaderData = useRouteLoaderData("root");
   const navigate = useNavigate();
   const user = useSelector((state) => state.users);
-  // useEffect(() => {
-  //   console.log(loaderData);
-  //   if (localStorage.getItem("isVerified") === "false") {
-  //     navigate("/profile");
-  //   }
-  // }, [loaderData]);
 
   return (
     <div className="p-[2rem] bg-gray-100 h-[90vh]">
