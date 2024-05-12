@@ -114,11 +114,12 @@ export class AppService {
     } else if (designation === DesignationEnum.MANAGER) {
       designationsAllowedToView.push(DesignationEnum.ADMIN);
       designationsAllowedToView.push(DesignationEnum.LEADER);
-      designationsAllowedToView.push(DesignationEnum.MANAGER);
       designationsAllowedToView.push(DesignationEnum.QA);
+      designationsAllowedToView.push(DesignationEnum.THUMBNAIL_DESIGNER);
+      designationsAllowedToView.push(DesignationEnum.SCRIPT_WRITER);
+      designationsAllowedToView.push(DesignationEnum.VOICE_OVER_ASSIST);
     } else if (designation === DesignationEnum.LEADER) {
       designationsAllowedToView.push(DesignationEnum.MANAGER);
-      designationsAllowedToView.push(DesignationEnum.LEADER);
       designationsAllowedToView.push(DesignationEnum.MEMBER);
       designationsAllowedToView.push(DesignationEnum.VIDEO_EDITOR);
       designationsAllowedToView.push(DesignationEnum.QA);
@@ -130,6 +131,7 @@ export class AppService {
     ) {
       designationsAllowedToView.push(DesignationEnum.ADMIN);
       designationsAllowedToView.push(DesignationEnum.SUPER_ADMIN);
+      designationsAllowedToView.push(DesignationEnum.MANAGER);
       designationsAllowedToView.push(DesignationEnum.QA);
     } else if (designation === DesignationEnum.QA) {
       designationsAllowedToView.push(DesignationEnum.SUPER_ADMIN);
@@ -137,7 +139,6 @@ export class AppService {
       designationsAllowedToView.push(DesignationEnum.LEADER);
       designationsAllowedToView.push(DesignationEnum.MANAGER);
       designationsAllowedToView.push(DesignationEnum.MEMBER);
-      designationsAllowedToView.push(DesignationEnum.QA);
       designationsAllowedToView.push(DesignationEnum.SCRIPT_WRITER);
       designationsAllowedToView.push(DesignationEnum.SEO);
       designationsAllowedToView.push(DesignationEnum.THUMBNAIL_DESIGNER);
@@ -147,6 +148,9 @@ export class AppService {
       designationsAllowedToView.push(DesignationEnum.LEADER);
       designationsAllowedToView.push(DesignationEnum.QA);
       designationsAllowedToView.push(DesignationEnum.SEO);
+    } else if (designation === DesignationEnum.VIDEO_EDITOR) {
+      designationsAllowedToView.push(DesignationEnum.QA);
+      designationsAllowedToView.push(DesignationEnum.LEADER);
     }
     return designationsAllowedToView;
   }

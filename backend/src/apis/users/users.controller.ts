@@ -9,6 +9,7 @@ import {
   Query,
   Delete,
   Param,
+  Put,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -101,4 +102,8 @@ export class UsersController {
     console.log(params, myEmail);
     return this.usersService.delete(myEmail, params.user);
   }
+
+  //* ---------------------------- Task Duplicate ----------------------------
+  @Put(':id')
+  taskDuplicate() {}
 }

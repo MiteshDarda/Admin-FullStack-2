@@ -44,4 +44,7 @@ export class TasksRepository {
 
   @Column({ type: 'datetime', nullable: true })
   completedOn: Date | null;
+
+  @Column({ type: 'tinyint', nullable: false, default: false })
+  deleted: boolean | null;
 }

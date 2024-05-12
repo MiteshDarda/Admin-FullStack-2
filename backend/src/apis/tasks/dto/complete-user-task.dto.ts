@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, Validate } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString, Validate } from 'class-validator';
 import { Transform } from 'class-transformer';
 import { CustomStarValidator } from './custom/custom-start-validator';
 
@@ -26,4 +26,8 @@ export class CompleteUserTaskDto {
   })
   @Validate(CustomStarValidator)
   readonly communication: number;
+
+  @IsNotEmpty()
+  @IsString()
+  readonly feedback: string;
 }

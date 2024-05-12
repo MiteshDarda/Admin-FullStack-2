@@ -22,7 +22,9 @@
     "typeorm:migration:create": "npm run typeorm -- migration:create ./src/migrations/$npm_config_name",
     "typeorm:migration:generate": "npm run typeorm -- migration:generate ./src/migrations/$npm_config_name",
     "typeorm:migrate": "typeorm-ts-node-commonjs migration:generate src/migrations/test -d dist/ormconfig.js",
-    "typeorm:migration:run": "npm run typeorm -- migration:run"
+    "typeorm:migration:run": "npm run typeorm -- migration:run",
+    "pretty": "npx prettier . --write",
+    "dev": "npm run pretty & npm run start:dev"
   },
   "dependencies": {
     "@nestjs-modules/mailer": "^1.11.2",

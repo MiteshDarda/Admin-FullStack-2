@@ -1,4 +1,11 @@
-import { IsNumber, IsOptional, IsString, Validate } from 'class-validator';
+import {
+  IsDate,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+  Validate,
+} from 'class-validator';
 import { Transform } from 'class-transformer';
 import { IsMonthValidConstraint } from './custom/month.validator';
 import { IsValidYearConstraint } from './custom/year.validator';
@@ -16,6 +23,14 @@ export class UserPayoutBodyDto {
   })
   @Validate(IsMonthValidConstraint)
   readonly month: number;
+
+  @IsNotEmpty()
+  @IsDate()
+  readonly from: Date;
+
+  @IsNotEmpty()
+  @IsDate()
+  readonly to: Date;
 
   @IsOptional()
   @IsNumber()

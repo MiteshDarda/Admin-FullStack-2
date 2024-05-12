@@ -45,10 +45,10 @@ export class PayoutController {
     return this.payoutService.userPayout(
       param.email,
       body.taskIdOrTitle,
-      body.year,
-      body.month,
       query.page,
       query.limit,
+      body.from,
+      body.to,
     );
   }
 }

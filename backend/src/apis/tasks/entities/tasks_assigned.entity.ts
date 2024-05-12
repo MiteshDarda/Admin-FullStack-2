@@ -43,4 +43,8 @@ export class TasksAssignedRepository {
   //* Task Completed on Date .
   @Column({ type: 'datetime', nullable: true })
   completedOn: Date | null;
+
+  //* Feedback .
+  @Column({ type: 'varchar', length: 250, nullable: true })
+  feedback: string;
 }
